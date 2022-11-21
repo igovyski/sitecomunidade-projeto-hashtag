@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container mt-3">
+        <h1 style="color: blue">{Blog dos Devs}</h1>
+        <h3>Onde Juniors, Plenos e Seniors podem se encontrar</h3>
+        <hr>
+        {% for post in posts %}
+        <div class="row border mt-4 p-3 meupost">
+                <div class="col col-3">
+                        <div class="image pe-3"> <img src="{{ url_for('static', filename='fotos_perfil/{}'.format(post.autor.foto_perfil)) }}" class="rounded" width="155"> </div>
+                        <br><strong>{{ post.autor.username }}</strong>
+                        <div class="row justify-content-center"><br>
+                        <div class="col">
+                            {% if current_user.linguagens %}
+                                {% for linguagem in post.autor.linguagens.split(';') %}
+                                    <button type="button" class="btn btn-info disabled mt-3">{{ linguagem }}</button>
+                                {% endfor %}
+                            {% else %}
+                                <p>Você ainda não programa em nenhuma linguagem :( </p>
+                            {% endif %}
+                        </div>
+                        </div>
+                </div>
+                <div class="col col-9">
+                        <a style="text-decoration: none" href="{{ url_for('exibir_post', post_id=post.id) }}"><h4 style="color: black">{{ post.titulo }}</h4></a>
+                        <p>{{ post.corpo }}</p>
+                </div>
+        </div>
+        {% endfor %}
+</div>
+{% endblock %}
